@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 
 using std::vector;
@@ -55,4 +56,20 @@ row operator+(row &row1, row &row2) {
     result.push_back(row1[i] + row2[i]);
   }
   return result;
+}
+
+/**
+ * Overloads the stream operator to display a row
+ *
+ * @param os The output stream
+ * @param row The row to display
+ * @return The output stream
+ */
+std::ostream &operator<<(std::ostream &os, const row &row) {
+  os << "(";
+  for (int i = 0; i < row.size(); i++) {
+    std::cout << row[i] << ((i == row.size() - 1) ? "" : ",");
+  }
+  os << ")";
+  return os;
 }
