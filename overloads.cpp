@@ -28,15 +28,15 @@ matrix operator-(matrix &matrix1, matrix &matrix2) {
 }
 
 /**
- * Overloads the greater than operator to compare two rows
+ * Overloads the less than or equal to operator to compare two rows
  *
  * @param row1 The first row
  * @param row2 The second row
- * @return True if row1 is greater than row2, false otherwise
+ * @return True if row1 is less than or equal to row2, false otherwise
  */
-bool operator>(row &row1, row &row2) {
+bool operator<=(row &row1, row &row2) {
   for (int i = 0; i < row1.size(); i++) {
-    if (row1[i] < row2[i]) {
+    if (row1[i] > row2[i]) {
       return false;
     }
   }
