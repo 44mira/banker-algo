@@ -18,7 +18,7 @@ void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
                  vector<int> &resourceInstances, matrix &needMatrix);
 void displayMatrix(matrix &matrix);
-void matrixSubtract(matrix &matrix1, matrix &matrix2, matrix &result);
+matrix operator-(matrix &matrix1, matrix &matrix2);
 
 int main(int argc, char *argv[]) {
   string filename = argv[1] ? argv[1] : "";
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
   parseFile(filename, allocatedMatrix, maxMatrix, resourceInstances);
 
   // solve for the need matrix using matrix subtraction
-  matrixSubtract(maxMatrix, allocatedMatrix, needMatrix);
+  needMatrix = maxMatrix - allocatedMatrix;
 
   displayInfo(allocatedMatrix, maxMatrix, resourceInstances, needMatrix);
 
@@ -163,14 +163,14 @@ void displayMatrix(matrix &matrix) {
 }
 
 /**
- * Subtracts two matrices and stores the result in a third matrix
+ * Overloads the subtraction operator to subtract two matrices
  *
  * @param matrix1 The first matrix
  * @param matrix2 The second matrix
- * @param result The matrix to store the result
+ * @return The result of the matrix subtraction
  */
-void matrixSubtract(matrix &matrix1, matrix &matrix2, matrix &result) {
-  result.clear();
+matrix operator-(matrix &matrix1, matrix &matrix2) {
+  matrix result;
   for (int i = 0; i < matrix1.size(); i++) {
     row row;
     for (int j = 0; j < matrix1[i].size(); j++) {
@@ -178,4 +178,6 @@ void matrixSubtract(matrix &matrix1, matrix &matrix2, matrix &result) {
     }
     result.push_back(row);
   }
+  return result;
 }
+
