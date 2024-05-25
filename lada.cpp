@@ -4,9 +4,14 @@
  */
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
-#include <sstream>
 #include <vector>
+
+using std::string, std::vector;
+
+typedef vector<int> row;
+typedef vector<vector<int>> matrix;
 
 /*
  * RES_TYPE PROCESS_COUNT
@@ -14,16 +19,25 @@
  * PROCESS_NAME INSTANCE MAX_INSTANCE
  */
 
-int parse_file(std::string filename);
+void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
+               vector<int> &resourceInstances);
+void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
+                 vector<int> &resourceInstances);
+void displayMatrix(matrix &matrix);
 
 int main(int argc, char *argv[]) {
-  std::string filename = argv[1] ? argv[1] : "";
+  string filename = argv[1] ? argv[1] : "";
   if (filename == "") {
-    std::cerr << "Please provide a file to parse\n";
+    std::cerr << "Please provide a file to parse\n\n"
+                 "Usage: ./lada <filename>\n";
     return 1;
   }
 
-  parse_file(filename);
+  vector<int> resourceInstances;
+  matrix allocatedMatrix, maxMatrix;
+  parseFile(filename, allocatedMatrix, maxMatrix, resourceInstances);
+
+  displayInfo(allocatedMatrix, maxMatrix, resourceInstances);
 
   return 0;
 }
