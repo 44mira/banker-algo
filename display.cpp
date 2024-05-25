@@ -35,7 +35,8 @@ void displayMatrix(matrix &matrix) {
  * @param resourceInstances The vector of resource instances
  */
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
-                 vector<int> &resourceInstances, matrix &needMatrix) {
+                 vector<int> &resourceInstances, matrix &needMatrix,
+                 row &availableRow) {
 
   for (int i = 1; i <= resourceInstances.size(); i++) {
     std::cout << "Resource " << i << "(R" << i << ") = " << std::setw(3)
@@ -60,16 +61,58 @@ void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
     std::cout << "R" << i + 1
               << ((i == resourceInstances.size() - 1) ? "" : ",");
   }
-  std::cout << ") = (";
-  for (int i = 0; i < resourceInstances.size(); i++) {
-    allocated = 0;
+  std::cout << ") = " << availableRow << "\n";
+}
 
-    for (int j = 0; j < allocatedMatrix.size(); j++) {
-      allocated += allocatedMatrix[j][i];
+void runSafetyAlgorithm(matrix &allocatedMatrix, matrix &needMatrix,
+                        vector<int> &resourceInstances, row &availableRow) {
+  std::cout << "Running the Safety Algorithm...\n\n";
+
+  row processesLeft, safeSequence;
+  for (int i = 0; i < allocatedMatrix.size(); i++) {
+    processesLeft.push_back(i);
+  }
+
+  int processLeftIndex, i = 0;
+  // while there are processes left
+  while (processesLeft.size()) {
+    processLeftIndex = -1;
+    for (i = i % processesLeft.size(); i < processesLeft.size(); i++) {
+      if (needMatrix[processesLeft[i]] <= availableRow) {
+        processLeftIndex = i;
+        break;
+      }
     }
 
-    std::cout << resourceInstances[i] - allocated
-              << ((i == resourceInstances.size() - 1) ? "" : ",");
+    if (processLeftIndex == -1) {
+      std::cout << "No safe sequence exists\n";
+      return;
+    }
+
+    std::cout << "P" << processesLeft[processLeftIndex] + 1
+              << " is given the resources...\nAvailable is " << availableRow
+              << " - " << needMatrix[processesLeft[processLeftIndex]] << " = "
+              << availableRow - needMatrix[processesLeft[processLeftIndex]]
+              << "\n";
+
+    std::cout << "Available is " << availableRow << "+"
+              << allocatedMatrix[processesLeft[processLeftIndex]] << " = "
+              << availableRow + allocatedMatrix[processesLeft[processLeftIndex]]
+              << "\n";
+
+    std::cout << "P" << processesLeft[processLeftIndex] + 1
+              << " is now done with the resources.\n\n";
+
+    availableRow =
+        availableRow + allocatedMatrix[processesLeft[processLeftIndex]];
+
+    safeSequence.push_back(processesLeft[processLeftIndex]);
+    std::cout << "Current Safe Sequence is <";
+    for (int sequence : safeSequence) {
+      std::cout << "P" << sequence + 1
+                << ((sequence == safeSequence.back()) ? "" : ",");
+    }
+    std::cout << ">\n\n";
+    processesLeft.erase(processesLeft.begin() + processLeftIndex);
   }
-  std::cout << ")\n";
 }
