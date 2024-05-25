@@ -13,12 +13,6 @@ using std::string, std::vector;
 typedef vector<int> row;
 typedef vector<vector<int>> matrix;
 
-/*
- * RES_TYPE PROCESS_COUNT
- * INSTANCE PER TYPE
- * PROCESS_NAME INSTANCE MAX_INSTANCE
- */
-
 void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
                vector<int> &resourceInstances);
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
