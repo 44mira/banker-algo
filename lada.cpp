@@ -19,6 +19,7 @@ void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
                  vector<int> &resourceInstances, matrix &needMatrix);
 void displayMatrix(matrix &matrix);
 matrix operator-(matrix &matrix1, matrix &matrix2);
+bool operator>(row &row1, row &row2);
 
 int main(int argc, char *argv[]) {
   string filename = argv[1] ? argv[1] : "";
@@ -181,3 +182,18 @@ matrix operator-(matrix &matrix1, matrix &matrix2) {
   return result;
 }
 
+/**
+ * Overloads the greater than operator to compare two rows
+ *
+ * @param row1 The first row
+ * @param row2 The second row
+ * @return True if row1 is greater than row2, false otherwise
+ */
+bool operator>(row &row1, row &row2) {
+  for (int i = 0; i < row1.size(); i++) {
+    if (row1[i] < row2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
