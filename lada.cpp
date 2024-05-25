@@ -36,41 +36,49 @@ int main(int argc, char *argv[]) {
  * @return 0 if successful, 1 if file not found
  */
 int parse_file(std::string filename) {
-  std::string buf;
-  std::ifstream parsedFile(filename); // read file
+  int resourceTypesCount, processCount, resourceInstanceCount;
 
-  if (parsedFile.rdstate() & std::fstream::failbit) {
+  // open file in read mode
+  std::ifstream parsedFile(filename);
+  if (parsedFile.rdstate() & std::ifstream::failbit) {
     std::cerr << "File not found\n";
     return 1;
   }
 
-  getline(parsedFile, buf); // get resource type count and process count
-  std::stringstream ss(buf);
+  // read the first two lines
+  std::vector<int> resourceInstances;
+  parsedFile >> resourceTypesCount >> processCount;
+  for (int i = 0; i < resourceTypesCount; i++) {
+    parsedFile >> resourceInstanceCount;
+    resourceInstances.push_back(resourceInstanceCount);
+  }
 
-  int resourceTypesCount, processCount;
-  ss >> resourceTypesCount >> processCount;
+  std::vector<std::vector<int>> allocatedMatrix;
+  std::vector<std::vector<int>> maxMatrix;
+  int col;
 
-  std::vector<std::vector<int>> instancePerType;
-
+  // read the rest of the file
   for (int i = 0; i < processCount; i++) {
-    getline(parsedFile, buf);
+    std::vector<int> columns;
+    parsedFile >> col; // ignore process name
 
-    std::stringstream ss(buf);
-    std::vector<int> instance;
-
-    int temp;
-    while (ss >> temp) {
-      instance.push_back(temp);
+    // first half of columns
+    for (int j = 0; j < resourceTypesCount; j++) {
+      parsedFile >> col;
+      columns.push_back(col);
     }
-    instancePerType.push_back(instance);
+    allocatedMatrix.push_back(columns);
+    columns.clear();
+
+    // second half of columns
+    for (int j = 0; j < resourceTypesCount; j++) {
+      parsedFile >> col;
+      columns.push_back(col);
+    }
+    maxMatrix.push_back(columns);
+    columns.clear();
   }
 
-  for (auto i : instancePerType) {
-    for (auto j : i) {
-      std::cout << j << " ";
-    }
-    std::cout << "\n";
-  }
-
+  parsedFile.close();
   return 0;
 }
