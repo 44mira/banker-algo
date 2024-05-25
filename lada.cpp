@@ -49,32 +49,30 @@ int main(int argc, char *argv[]) {
  * @param filename The name of the file to parse
  * @return 0 if successful, 1 if file not found
  */
-int parse_file(std::string filename) {
+void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
+               vector<int> &resourceInstances) {
   int resourceTypesCount, processCount, resourceInstanceCount;
 
   // open file in read mode
   std::ifstream parsedFile(filename);
   if (parsedFile.rdstate() & std::ifstream::failbit) {
     std::cerr << "File not found\n";
-    return 1;
+    return;
   }
 
   // read the first two lines
-  std::vector<int> resourceInstances;
   parsedFile >> resourceTypesCount >> processCount;
   for (int i = 0; i < resourceTypesCount; i++) {
     parsedFile >> resourceInstanceCount;
     resourceInstances.push_back(resourceInstanceCount);
   }
 
-  std::vector<std::vector<int>> allocatedMatrix;
-  std::vector<std::vector<int>> maxMatrix;
   int col;
 
   // read the rest of the file
   for (int i = 0; i < processCount; i++) {
-    std::vector<int> columns;
-    parsedFile >> col; // ignore process name
+    row columns;
+    parsedFile.ignore(3, ' '); // skip the process name
 
     // first half of columns
     for (int j = 0; j < resourceTypesCount; j++) {
@@ -94,5 +92,5 @@ int parse_file(std::string filename) {
   }
 
   parsedFile.close();
-  return 0;
 }
+
