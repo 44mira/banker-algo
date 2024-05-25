@@ -123,6 +123,26 @@ void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
 
   std::cout << "\nNeed matrix for the 5 processes:\n\n";
   displayMatrix(needMatrix);
+
+  int allocated;
+
+  std::cout << "\nAvailable instances for each resource type: (";
+  for (int i = 0; i < resourceInstances.size(); i++) {
+    std::cout << "R" << i + 1
+              << ((i == resourceInstances.size() - 1) ? "" : ",");
+  }
+  std::cout << ") = (";
+  for (int i = 0; i < resourceInstances.size(); i++) {
+    allocated = 0;
+
+    for (int j = 0; j < allocatedMatrix.size(); j++) {
+      allocated += allocatedMatrix[j][i];
+    }
+
+    std::cout << resourceInstances[i] - allocated
+              << ((i == resourceInstances.size() - 1) ? "" : ",");
+  }
+  std::cout << ")\n";
 }
 
 /**
