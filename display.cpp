@@ -109,7 +109,7 @@ void runSafetyAlgorithm(matrix &allocatedMatrix, matrix &needMatrix,
     safeSequence.push_back(processesLeft[processLeftIndex]);
     std::cout << "Current Safe Sequence is <";
     for (int sequence : safeSequence) {
-      std::cout << "P" << sequence + 1
+      std::cout << "P" << sequence
                 << ((sequence == safeSequence.back()) ? "" : ",");
     }
     std::cout << ">\n\n";
