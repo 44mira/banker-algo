@@ -12,6 +12,8 @@ using std::string;
 
 void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
                vector<int> &resourceInstances);
+void getAvailableRow(matrix &allocatedMatrix, vector<int> &resourceInstances,
+                     row &availableRow);
 
 int main(int argc, char *argv[]) {
   string filename = argv[1] ? argv[1] : "";
@@ -21,14 +23,19 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  vector<int> resourceInstances;
+  row resourceInstances, availableRow;
   matrix allocatedMatrix, maxMatrix, needMatrix;
   parseFile(filename, allocatedMatrix, maxMatrix, resourceInstances);
 
   // solve for the need matrix using matrix subtraction
   needMatrix = maxMatrix - allocatedMatrix;
 
-  displayInfo(allocatedMatrix, maxMatrix, resourceInstances, needMatrix);
+  getAvailableRow(allocatedMatrix, resourceInstances, availableRow);
+  displayInfo(allocatedMatrix, maxMatrix, resourceInstances, needMatrix,
+              availableRow);
+
+  runSafetyAlgorithm(allocatedMatrix, needMatrix, resourceInstances,
+                     availableRow);
 
   return 0;
 }
@@ -83,4 +90,19 @@ void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
   }
 
   parsedFile.close();
+}
+
+void getAvailableRow(matrix &allocatedMatrix, vector<int> &resourceInstances,
+                     row &availableRow) {
+  row totalAllocation;
+  int column;
+  for (int i = 0; i < allocatedMatrix[i].size(); i++) {
+    column = 0;
+    for (int j = 0; j < allocatedMatrix.size(); j++) {
+      column += allocatedMatrix[j][i];
+    }
+
+    totalAllocation.push_back(column);
+  }
+  availableRow = resourceInstances - totalAllocation;
 }
