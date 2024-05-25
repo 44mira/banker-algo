@@ -16,7 +16,7 @@ typedef vector<vector<int>> matrix;
 void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
                vector<int> &resourceInstances);
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
-                 vector<int> &resourceInstances);
+                 vector<int> &resourceInstances, matrix &needMatrix);
 void displayMatrix(matrix &matrix);
 void matrixSubtract(matrix &matrix1, matrix &matrix2, matrix &result);
 
@@ -29,10 +29,13 @@ int main(int argc, char *argv[]) {
   }
 
   vector<int> resourceInstances;
-  matrix allocatedMatrix, maxMatrix;
+  matrix allocatedMatrix, maxMatrix, needMatrix;
   parseFile(filename, allocatedMatrix, maxMatrix, resourceInstances);
 
-  displayInfo(allocatedMatrix, maxMatrix, resourceInstances);
+  // solve for the need matrix using matrix subtraction
+  matrixSubtract(maxMatrix, allocatedMatrix, needMatrix);
+
+  displayInfo(allocatedMatrix, maxMatrix, resourceInstances, needMatrix);
 
   return 0;
 }
@@ -97,7 +100,7 @@ void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
  * @param resourceInstances The vector of resource instances
  */
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
-                 vector<int> &resourceInstances) {
+                 vector<int> &resourceInstances, matrix &needMatrix) {
 
   for (int i = 1; i <= resourceInstances.size(); i++) {
     std::cout << "Resource " << i << "(R" << i << ") = " << std::setw(3)
@@ -111,9 +114,6 @@ void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
   std::cout << "\nMaximum Resources for the " << maxMatrix.size()
             << " processes:\n\n";
   displayMatrix(maxMatrix);
-
-  matrix needMatrix;
-  matrixSubtract(maxMatrix, allocatedMatrix, needMatrix);
 
   std::cout << "\nNeed matrix for the 5 processes:\n\n";
   displayMatrix(needMatrix);
