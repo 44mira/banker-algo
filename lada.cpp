@@ -24,6 +24,7 @@ void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
                  vector<int> &resourceInstances);
 void displayMatrix(matrix &matrix);
+void matrixSubtract(matrix &matrix1, matrix &matrix2, matrix &result);
 
 int main(int argc, char *argv[]) {
   string filename = argv[1] ? argv[1] : "";
@@ -147,3 +148,20 @@ void displayMatrix(matrix &matrix) {
   }
 }
 
+/**
+ * Subtracts two matrices and stores the result in a third matrix
+ *
+ * @param matrix1 The first matrix
+ * @param matrix2 The second matrix
+ * @param result The matrix to store the result
+ */
+void matrixSubtract(matrix &matrix1, matrix &matrix2, matrix &result) {
+  result.clear();
+  for (int i = 0; i < matrix1.size(); i++) {
+    row row;
+    for (int j = 0; j < matrix1[i].size(); j++) {
+      row.push_back(matrix1[i][j] - matrix2[i][j]);
+    }
+    result.push_back(row);
+  }
+}
