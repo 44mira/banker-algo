@@ -18,7 +18,9 @@ void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
                  vector<int> &resourceInstances, matrix &needMatrix);
 void displayMatrix(matrix &matrix);
+
 matrix operator-(matrix &matrix1, matrix &matrix2);
+row operator+(row &row1, row &row2);
 bool operator>(row &row1, row &row2);
 
 int main(int argc, char *argv[]) {
@@ -196,4 +198,19 @@ bool operator>(row &row1, row &row2) {
     }
   }
   return true;
+}
+
+/**
+ * Overloads the addition operator to add two rows
+ *
+ * @param row1 The first row
+ * @param row2 The second row
+ * @return The result of the row addition
+ */
+row operator+(row &row1, row &row2) {
+  row result;
+  for (int i = 0; i < row1.size(); i++) {
+    result.push_back(row1[i] + row2[i]);
+  }
+  return result;
 }
