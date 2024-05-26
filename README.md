@@ -2,6 +2,14 @@
 
 Explanation: https://www.youtube.com/watch?v=T0FXvTHcYi4
 
+g++ Version:
+> g++ (GCC) 14.1.1 20240522
+> Copyright (C) 2024 Free Software Foundation, Inc.
+> This is free software; see the source for copying conditions.  There is NO
+> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Input
+
 Input format:
 
 ```py
