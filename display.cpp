@@ -51,7 +51,8 @@ void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
             << " processes:\n\n";
   displayMatrix(maxMatrix);
 
-  std::cout << "\nNeed matrix for the 5 processes:\n\n";
+  std::cout << "\nNeed matrix for the " << maxMatrix.size()
+            << " processes:\n\n";
   displayMatrix(needMatrix);
 
   int allocated;
@@ -97,7 +98,7 @@ void runSafetyAlgorithm(matrix &allocatedMatrix, matrix &needMatrix,
       return;
     }
 
-    std::cout << "P" << processesLeft[processLeftIndex] + 1
+    std::cout << "P" << processesLeft[processLeftIndex]
               << " is given the resources...\nAvailable is " << availableRow
               << " - " << needMatrix[processesLeft[processLeftIndex]] << " = "
               << availableRow - needMatrix[processesLeft[processLeftIndex]]
@@ -108,7 +109,7 @@ void runSafetyAlgorithm(matrix &allocatedMatrix, matrix &needMatrix,
               << availableRow + allocatedMatrix[processesLeft[processLeftIndex]]
               << "\n";
 
-    std::cout << "P" << processesLeft[processLeftIndex] + 1
+    std::cout << "P" << processesLeft[processLeftIndex]
               << " is now done with the resources.\n\n";
 
     availableRow =
