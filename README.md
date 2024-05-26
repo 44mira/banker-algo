@@ -36,3 +36,9 @@ The input file is to be provided as an argument to the executable.
 ./lada input.txt    # succeeding case
 ./lada fail.txt     # failing case
 ```
+
+## Expected results
+
+The expected output of the program given the default input files `input.txt`
+and `fail.txt` are found in `input-result.txt` and `fail-result.txt`
+
