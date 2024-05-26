@@ -92,7 +92,15 @@ void parseFile(string filename, matrix &allocatedMatrix, matrix &maxMatrix,
   parsedFile.close();
 }
 
-void getAvailableRow(matrix &allocatedMatrix, vector<int> &resourceInstances,
+/**
+ * Calculates the available row by subtracting the total allocation from the
+ * resource instances.
+ *
+ * @param allocatedMatrix The matrix containing the allocated resources
+ * @param resourceInstances The vector containing the total resource instances
+ * @param availableRow The row containing the available resources
+ */
+void getAvailableRow(matrix &allocatedMatrix, row &resourceInstances,
                      row &availableRow) {
   row totalAllocation;
   int column;

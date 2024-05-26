@@ -32,10 +32,10 @@ void displayMatrix(matrix &matrix) {
  *
  * @param allocatedMatrix The matrix of allocated resources
  * @param maxMatrix The matrix of maximum resources
- * @param resourceInstances The vector of resource instances
+ * @param resourceInstances The row of resource instances
  */
 void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
-                 vector<int> &resourceInstances, matrix &needMatrix,
+                 row &resourceInstances, matrix &needMatrix,
                  row &availableRow) {
 
   for (int i = 1; i <= resourceInstances.size(); i++) {
@@ -64,8 +64,16 @@ void displayInfo(matrix &allocatedMatrix, matrix &maxMatrix,
   std::cout << ") = " << availableRow << "\n";
 }
 
+/**
+ * Runs the safety algorithm to determine if a safe sequence exists
+ *
+ * @param allocatedMatrix The matrix of allocated resources
+ * @param needMatrix The matrix of needed resources
+ * @param resourceInstances The vector of resource instances
+ * @param availableRow The row of available resources
+ */
 void runSafetyAlgorithm(matrix &allocatedMatrix, matrix &needMatrix,
-                        vector<int> &resourceInstances, row &availableRow) {
+                        row &resourceInstances, row &availableRow) {
   std::cout << "Running the Safety Algorithm...\n\n";
 
   row processesLeft, safeSequence;
